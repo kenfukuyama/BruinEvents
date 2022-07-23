@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}Create{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %}
+<div class="d-flex align-items-center gap-4">
+    <a href="/dashboard">Dashboard</a>
+    <form action="/logout" method="post">
+        <div class="d-flex justify-content-end">
+            <input type="submit" value="Logout" class="btn btn-danger">
+        </div>
+    </form>
+</div>
+{% endblock%}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header text-primary p-4">Add a Magazine</h4>
+                <div class="card-body">
+                    
+                        <form action="/magazines/create" method="post">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title:</label>
+                                <input type="text" name="title" placeholder="Magazine Title" id="title" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control" name="description" id="description" rows="3" placeholder="Please enter description ..."></textarea>
+                            </div>
+
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    {% for category, message in messages %}
+                                    <p class="text-danger">{{message}}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+
+                            <div class="d-flex justify-content-end">
+                                <input type="submit" value="submit" class="btn btn-primary">
+                            </div>
+                        </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Event{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %}
+<div class="d-flex gap-3 align-items-center">
+    <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
+        <div class=""><a href="/events/dashboard" class="btn">Browse Events</a></div>
+        <div class="create-event">
+            <a href="/users/dashboard" class="btn">
+                <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
+                    <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
+                    {{session['name'].title()}}
+                </div>
+            </a>
+        </div>
+        <div class="create-event">
+            <form action="/logout" method="post">
+                <input type="submit" value="Logout" class="btn btn-danger">
+            </form>
+        </div>
+</div>
+{% endblock%}
+
+{% block content %}
+    <div class="container text-center pt-5 w-50">
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header p-4">About Your Event</h4>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    <form action="/events/create" method="post">
+                        <input type="hidden" name="user_id" value="{{session['user_id']}}">
+                        <div class="form-group mb-3">
+                            <input type="text" name="name" id="name" placeholder="Name*" class="form-control" required>
+                        </div>
+
+                        <!-- TODO: Better if you can pick today or tommorw easil -->
+                        <div class="form-group mb-3">
+                            <textarea class="form-control" name="description" id="description" placeholder="Event description ...."rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" name="place" id="place" placeholder="Location*" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="event_date">date:</label>
+                            <input type="date" id="event_date" name="event_date" value="2022-09-20" required>
+                        </div>
+
+                        <div class="div mb-3">
+                            <label for="start_time">start time:</label>
+                            <input type="time" id="start_time" name="start_time" value="21:15" required>
+                        </div>
+
+                        <div class="div mb-4">
+                            <label for="end_time">end time:</label>
+                            <input type="time" id="end_time" name="end_time" value="22:30" required>
+                        </div>
+
+                        <input type="submit" value="Create Events" class="btn bg-primary w-100 mb-3">
+                    </form>
+                    {% endwith %}
+                </div>
+            </div>
+    </div>
+{% endblock %}

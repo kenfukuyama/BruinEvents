@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}Recipe Page{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %}
+
+
+<div class="d-flex gap-3 align-items-center">
+    <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
+        <div class="create-event"><a href="/events/create" class="btn">+ Add Event</a></div>
+        <div class="create-event">
+            <a href="/users/dashboard" class="btn">
+                <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
+                    <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
+                    {{session['name'].title()}}
+                </div>
+            </a>
+        </div>
+        <div class="create-event">
+            <form action="/logout" method="post">
+                <input type="submit" value="Logout" class="btn btn-danger">
+            </form>
+        </div>
+</div>
+
+{% endblock%}
+
+{% block content %}
+        <!-- main content -->
+        <div class="row w-100 mt-3">
+            <!-- filter page -->
+            <div class="col-3 border border-info">
+                Filter
+            </div>
+            <!-- event browpage -->
+            <div class="col-9">
+                <!-- top day naviation -->
+                <div class="row mb-3">
+                    <div class="d-flex align-items-center justify-content-around">
+                        <div class="date-event"><a href="#">Today</a></div>
+                        <div class="date-event"><a href="#">Tommorrow</a></div>
+                        <div class="date-event"><a href="#">Thirsty Thursday</a></div>
+                        <div class="date-event"><a href="#">Thank God It's Friday</a></div>
+                        <div class="date-event"><a href="#">This Weekend</a></div>
+                        <div class="date-event"><a href="#">This Month</a></div>
+                        <div class="date-event"><a href="#">Select Date</a></div>
+                    </div>
+                </div>
+                <!-- show events -->
+                {% for event in events %}
+                    <div class="row event">
+                        <div class="card border-warning m-2">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="event-name">{{event.name}} </div>
+                                    <div class="event-time">{{event.event_date}} at {{event.start_time}}</div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <div class="event-time">{{event.place}}</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                Description: {{event.description}}  <br>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+{% endblock %}
+
+

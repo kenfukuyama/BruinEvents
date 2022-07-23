@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %}
+    <a class="btn" href="users/register">Sign Up</a>
+{% endblock%}
+
+{% block content %}
+    <div class="container text-center pt-5 w-50">
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header p-4">BruinEvents</h4>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    <form action="/users/login" method="post">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <input type="text" name="email" id="email" placeholder="Email" class="form-control" required>
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        {% if category == "email" %}
+                                            <span class="text-form-text text-danger">{{message}}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
+                                <input type="password" name="password" id="password" placeholder="Password" class="form-control" required>
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        {% if category == "password" %}
+                                            <span class="text-form-text text-danger">{{message}}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <input type="submit" value="Log In" class="btn bg-primary w-100">
+                        </div>
+                    </form>
+                    {% endwith %}
+                    <!-- TODO create reset password route -->
+                    <div class="forgot-password mb-2 small">
+                        <a href="#" class="text-decoration-none text-white">Forgot Password?</a>
+                    </div>
+                    <div class="register small">
+                        Don't have an account? <a href="users/register" class="text-decoration-none">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

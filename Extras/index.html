@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="row mt-2">
+        <h2>Hello, Welcome!</h2>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header text-primary p-4">REGISTER</h4>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    <form action="/users/register" method="post">
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" name="first_name" id="first_name" placeholder="First Name" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "first_name" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" name="last_name" id="last_name" placeholder="Last Name" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "last_name" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" name="email" id="email" placeholder="Email" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "email" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "password" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password_confirmed" class="form-label">Confirm Password</label>
+                            <input type="password" name="password_confirmed" id="password_confirmed" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "password_confirmed" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        
+                        <div class="d-flex justify-content-end">
+                            <input type="submit" value="register" class="btn btn-primary">
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header text-primary p-4">
+                    LOGIN
+                </h4>
+                <div class="card-body">
+                    <form action="/users/login" method="post">
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="log_email" class="form-label">Email</label>
+                                <input type="text" name="log_email" id="log_email" placeholder="Email" class="form-control" >
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        {% if category == "log_email" %}
+                                            <span class="text-form-text text-danger">{{message}}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="log_password" class="form-label">Password</label>
+                                <input type="password" name="log_password" id="log_password" class="form-control" >
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        {% if category == "log_password" %}
+                                            <span class="text-form-text text-danger">{{message}}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% endwith %}
+                            <div class="d-flex justify-content-end">
+                                <input type="submit" value="login" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="card mt-3">
+                        <h5 class="card-header">
+                            Message
+                        </h5>
+                        <div class="card-body">
+                                        {% for category, message in messages %}
+                                            <p class="text-danger">{{message}}</p>
+                                        {% endfor %}
+                                    
+                                
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+{% endblock %}
+
+
+

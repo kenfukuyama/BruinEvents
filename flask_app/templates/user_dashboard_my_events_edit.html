@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block extra_nav %}
+
+
+<div class="d-flex gap-3 align-items-center">
+    <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
+        <div class=""><a href="/events/dashboard" class="btn">Browse Events</a></div>
+        <div class="create-event"><a href="/events/create" class="btn">+ Add Event</a></div>
+        <div class="create-event">
+            <a href="/users/dashboard" class="btn">
+                <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
+                    <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
+                    {{session['name'].title()}}
+                </div>
+            </a>
+        </div>
+        <div class="create-event">
+            <form action="/logout" method="post">
+                <input type="submit" value="Logout" class="btn btn-danger">
+            </form>
+        </div>
+</div>
+
+{% endblock%}
+
+{% block content %}
+    <!-- main content -->
+    <div class="row w-100 mt-3">
+        <!-- nav page -->
+        <div class="col-10">
+            <!-- Main Edit Page -->
+            <h2 class="p-3">Edit Event</h2>
+            <div class="card">
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    <form action="/events/update" method="post">
+                        <input type="hidden" name="id" value="{{event.id}}">
+                        <div class="form-group mb-3">
+                            <input type="text" name="name" id="name"   class="form-control" required value="{{event.name}}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <textarea class="form-control" name="description" id="description" rows="3">{{event.description}}</textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" name="place" id="place"  class="form-control" required value="{{event.place}}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="event_date">date:</label>
+                            <input type="date" id="event_date" name="event_date" required value="{{event.event_date}}">
+                        </div>
+
+                        <div class="div mb-3">
+                            <label for="start_time">start time:</label>
+                            <input type="time" id="start_time" name="start_time" required value="{{event.start_time}}">
+                        </div>
+
+                        <div class="div mb-4">
+                            <label for="end_time">end time:</label>
+                            <input type="time" id="end_time" name="end_time" value="{{event.end_time}}">
+                        </div>
+
+                        <input type="submit" value="Update" class="btn bg-primary w-100 mb-3">
+                    </form>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ! navigation bars ---------------------------------------------------- -->
+        <div class="col-2">
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Events
+                    </div>
+                    <div class="card-body">
+                        <a href="/users/dashboard/events/likes" class="btn">Liked Events</a> <br>
+                        <a href="/users/dashboard/myevents" class="btn">My Events</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Connect
+                    </div>
+                    <div class="card-body">
+                        <a href="/users/dashboard/groups" class="btn">Groups</a> <br>
+                        <a href="/users/dashboard/friends" class="btn">Friends</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Settings
+                    </div>
+                    <div class="card-body">
+                        <a href="/users/dashboard/account" class="btn">Account</a> <br>
+                        <a href="/users/dashboard/site-settings" class="btn">Site Settings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Help Center
+                    </div>
+                    <div class="card-body">
+                        <a href="/users/dashboard/support" class="btn">Contact Support
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ! navgation bar ends ---------------------------------------------------------------- -->
+    </div>
+
+{% endblock %}

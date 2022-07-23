@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block extra_nav %}
+
+
+<div class="d-flex gap-3 align-items-center">
+    <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
+        <div class=""><a href="/events/dashboard" class="btn">Browse Events</a></div>
+        <div class="create-event"><a href="/events/create" class="btn">+ Add Event</a></div>
+        <div class="create-event">
+            <a href="/users/dashboard" class="btn">
+                <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
+                    <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
+                    {{session['name'].title()}}
+                </div>
+            </a>
+        </div>
+        <div class="create-event">
+            <form action="/logout" method="post">
+                <input type="submit" value="Logout" class="btn btn-danger">
+            </form>
+        </div>
+</div>
+
+{% endblock%}
+
+{% block content %}
+    <!-- main content -->
+    <div class="row w-100 mt-3">
+        <!-- nav page -->
+        <div class="col-10">
+            {% block body_content %} {% endblock %}
+        </div>
+        <div class="col-2">
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Events
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn">Liked Events</a> <br>
+                        <a href="#" class="btn">My Events</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Connect
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn">Groups</a> <br>
+                        <a href="#" class="btn">Friends</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Settings
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn">Account</a> <br>
+                        <a href="#" class="btn">Site Settings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row navigation">
+                <div class="card  m-2">
+                    <div class="card-header">
+                        Help Center
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn">Contact Support
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

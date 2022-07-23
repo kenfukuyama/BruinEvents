@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Show Thoughts{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %} 
+
+<div class="d-flex align-items-center gap-4">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/magazines/new">Add Magazine</a>
+    <a href="/users/{{session['user_id']}}">Account</a>
+    <form action="/logout" method="post">
+        <div class="d-flex justify-content-end">
+            <input type="submit" value="Logout" class="btn btn-danger">
+        </div>
+    </form>
+</div>
+
+{% endblock%}
+
+{% block content %}
+
+    <h3 class="mb-5 "><u>{{magazine.title}}</u></h3>
+
+    <h5 class="mb-4">Added by {{magazine.first_name}} {{magazine.last_name}}</h5>
+
+    <!-- <p class="d-flex justify-content-start m-5">Description:   <br> {{magazine.description}}</p>   -->
+    <p class=""><strong><u>Description:</u></strong>   <br> {{magazine.description}}</p>  
+    <p class=""><strong><u>Subscribers:</u></strong>   <br> 
+                {% for user in magazine.users %}
+                    {% if user.first_name %}
+                        - {{user.first_name}} {{user.last_name}} <br>
+                    {% endif %}
+                {% endfor %}
+    </p>  
+
+    
+
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %}
+    <a class="btn" href="/">Log In</a>
+{% endblock%}
+
+{% block content %}
+    <div class="container text-center pt-5 w-50">
+        <div class="col">
+            <div class="card">
+                <h4 class="card-header p-4">BruinEvents</h4>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    <form action="/users/register" method="post">
+                        <div class="mb-3">
+                            <input type="text" name="name" id="name" placeholder="Name*" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "name" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" name="email" id="email" placeholder="Email*" class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "email" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <input type="password" name="password" id="password" placeholder="Password* (8 or more characters)
+                            "class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "password" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <input type="password" name="password_confirmed" id="password_confirmed" placeholder = "Confirm Password*" 
+                            class="form-control" >
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == "password_confirmed" %}
+                                        <span class="text-form-text text-danger">{{message}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <input type="submit" value="Sign Up" class="btn bg-primary w-100 mb-3">
+                    </form>
+                    {% endwith %}
+
+                    <div class="register small">
+                        Already have an account? <a href="/" class="text-decoration-none">Log In</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

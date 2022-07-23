@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block title %}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %}
+
+<div class="d-flex align-items-center gap-4">
+    <a href="/magazines/new">Add Magazine</a>
+    <a href="/dashboard">Dashboard</a>
+    <form action="/logout" method="post">
+        <div class="d-flex justify-content-end">
+            <input type="submit" value="Logout" class="btn btn-danger">
+        </div>
+    </form>
+</div>
+    
+{% endblock%}
+
+{% block content %}
+
+<div class="row mt-2">
+    <div class="col">
+        <div class="card">
+            <h4 class="card-header text-primary p-4">Update User</h4>
+            <div class="card-body">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <form action="/users/update" method="post">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name:</label>
+                        <input type="text" name="first_name" id="first_name" value="{{user.first_name}}" class="form-control" >
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == "first_name" %}
+                                    <span class="text-form-text text-danger">{{message}}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name:</label>
+                        <input type="text" name="last_name" id="last_name" value="{{user.last_name}}" class="form-control" >
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == "last_name" %}
+                                    <span class="text-form-text text-danger">{{message}}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="text" name="email" id="email" value="{{user.email}}" class="form-control" >
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == "email" %}
+                                    <span class="text-form-text text-danger">{{message}}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% endwith %}
+                    <div class="d-flex justify-content-end">
+                        <input type="submit" value="Update" class="btn btn-primary">
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <h4 class="card-header text-primary p-4">
+                User's Magazine
+            </h4>
+            <div class="card-body">
+                {% for magazine in user.magazines %}
+                    <div class="d-flex justify-content-center gap-3">
+                        <p>{{magazine.title}} - {{magazine.sub_count}} subscribers </p>
+                        <a class="text-danger" href="/magazines/delete/{{magazine.id}}">delete</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
