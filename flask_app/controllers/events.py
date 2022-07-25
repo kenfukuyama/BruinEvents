@@ -1,5 +1,4 @@
 # imports
-from asyncio import events
 from flask_app import app, render_template, redirect, request, session, flash
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
