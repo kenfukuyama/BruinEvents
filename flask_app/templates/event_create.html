@@ -49,18 +49,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="event_date">date:</label>
-                            <input type="date" id="event_date" name="event_date" value="2022-09-20" required>
+                            <label for="event_date">date: </label>
+                            <input type="date" id="date" name="event_date" required>
                         </div>
 
                         <div class="div mb-3">
                             <label for="start_time">start time:</label>
-                            <input type="time" id="start_time" name="start_time" value="21:15" required>
+                            <input type="time" id="start_time" name="start_time" value="18:00" onchange="changeEndTime()" required>
                         </div>
 
                         <div class="div mb-4">
                             <label for="end_time">end time:</label>
-                            <input type="time" id="end_time" name="end_time" value="22:30" required>
+                            <input type="time" id="end_time" name="end_time" required>
                         </div>
 
                         <input type="submit" value="Create Events" class="btn bg-primary w-100 mb-3">
