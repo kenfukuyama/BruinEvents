@@ -68,3 +68,71 @@ class Event:
     def update(cls, data):
         query = "UPDATE events SET `name` = %(name)s, `description` = %(description)s, `event_date` = %(event_date)s, `start_time` = %(start_time)s, `end_time` = %(end_time)s, `place` = %(place)s WHERE (`id` = %(id)s);"
         return connectToMySQL(DATABASE).query_db(query, data)
+
+
+
+    # *================================================================
+    # * Events Date Queries
+    # *================================================================
+
+    #! select today's event
+    @classmethod
+    def read_all_today(cls):
+        query = "SELECT * FROM events WHERE event_date >= CURDATE() AND event_date < CURDATE() + INTERVAL 1 DAY;"
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr
+
+
+    #! select tommorrow's event
+    @classmethod
+    def read_all_tommorrow(cls):
+        query = "SELECT * FROM events WHERE event_date > CURDATE() AND event_date <= CURDATE() + INTERVAL 1 DAY;"
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr
+    
+
+    #! select thursdays' event
+    @classmethod
+    def read_all_thursdays(cls):
+        query = "SELECT * FROM events WHERE DAYOFWEEK(event_date) = 5;"
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr
+
+    #! select fridays' event
+    @classmethod
+    def read_all_fridays(cls):
+        query = "SELECT * FROM events WHERE DAYOFWEEK(event_date) = 6;"
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr
+    
+    #! select this weekend query
+    @classmethod
+    def read_all_this_weekend(cls):
+        query = "SELECT * FROM events WHERE DAYOFWEEK(event_date) in (1, 7) AND event_date >= CURDATE() AND (event_date <= CURDATE() + INTERVAL 8 DAY);"
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr
+
+    #! select this month query
+    @classmethod
+    def read_all_this_month(cls):
+        query = "SELECT * FROM events WHERE event_date >= CURDATE() AND (event_date <= CURDATE() + INTERVAL 31 DAY);"
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr

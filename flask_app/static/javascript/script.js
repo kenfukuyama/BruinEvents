@@ -36,7 +36,9 @@ function changeEndTime() {
     start_time = document.querySelector('#start_time');
     end_time = document.querySelector('#end_time');
 
-    if (end_time.value) {return;} // do notthing if already changed
+
+    // TODO: Fix this when deploying
+    // if (end_time.value) {return;} // do notthing if already changed
 
     start_time_obj = new Date("2000-01-01 " + start_time.value);
     // add one hour and convert to string, in a correct format

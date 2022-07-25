@@ -75,3 +75,64 @@ def edit_events_page(id):
 def update():
     Event.update(request.form)
     return redirect(f'/users/dashboard/events/edit/{request.form["id"]}')
+
+
+# *================================================================
+# * Events Date Query Routes
+# *================================================================f
+
+#! Get Events Today
+@app.route('/events/dashboard/today')
+def events_today():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    events = Event.read_all_today()
+    return render_template('event_dashboard.html', events=events)
+
+#! Get events Tommorrow
+@app.route('/events/dashboard/tommorrow')
+def events_tommorrow():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    events = Event.read_all_tommorrow()
+    return render_template('event_dashboard.html', events=events)
+
+
+#! Get events thursdays
+@app.route('/events/dashboard/thursdays')
+def events_thursdays():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    events = Event.read_all_thursdays()
+    return render_template('event_dashboard.html', events=events)
+
+
+#! Get events fridays
+@app.route('/events/dashboard/fridays')
+def events_fridays():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    events = Event.read_all_fridays()
+    return render_template('event_dashboard.html', events=events)
+
+#! Get events weekend
+@app.route('/events/dashboard/weekend')
+def events_weekend():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    events = Event.read_all_this_weekend()
+    return render_template('event_dashboard.html', events=events)
+
+#! Get events this month
+@app.route('/events/dashboard/month')
+def events_month():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    events = Event.read_all_this_month()
+    return render_template('event_dashboard.html', events=events)

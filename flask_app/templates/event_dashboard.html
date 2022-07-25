@@ -42,15 +42,17 @@
                 <!-- top day naviation -->
                 <div class="row mb-3">
                     <div class="d-flex align-items-center justify-content-around">
-                        <div class="date-event"><a href="#">Today</a></div>
-                        <div class="date-event"><a href="#">Tommorrow</a></div>
-                        <div class="date-event"><a href="#">Thirsty Thursday</a></div>
-                        <div class="date-event"><a href="#">Thank God It's Friday</a></div>
-                        <div class="date-event"><a href="#">This Weekend</a></div>
-                        <div class="date-event"><a href="#">This Month</a></div>
-                        <div class="date-event"><a href="#">Select Date</a></div>
+                        <div class="date-event"><a href="/events/dashboard">All</a></div>
+                        <div class="date-event"><a href="/events/dashboard/today">Today</a></div>
+                        <div class="date-event"><a href="/events/dashboard/tommorrow">Tommorrow</a></div>
+                        <div class="date-event"><a href="/events/dashboard/thursdays">Thirsty Thursday</a></div>
+                        <div class="date-event"><a href="/events/dashboard/fridays">Thank God It's Friday</a></div>
+                        <div class="date-event"><a href="/events/dashboard/weekend">This Weekend</a></div>
+                        <div class="date-event"><a href="/events/dashboard/month">This Month</a></div>
+                        <!-- TODO: Select date maybe should be in the filter -->
+                        <!-- <div class="date-event"><a href="/events/dashboard/">Select Date</a></div> -->
                     </div>
-                </div>
+                </div> 
                 <!-- show events -->
                 {% for event in events %}
                     <div class="row event">
