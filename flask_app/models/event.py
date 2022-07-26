@@ -136,3 +136,29 @@ class Event:
         for row_dict in res:
             res_arr.append(cls(row_dict))
         return res_arr
+
+
+    #! select filter with day of the week
+    @classmethod
+    def read_all_filter_day_of_week(cls, filter):
+        # basic structure
+        query = "SELECT * FROM events"
+        
+        # append all the filter days
+        if len(filter) > 0:
+            query += " WHERE DAYOFWEEK(event_date) in ("
+            for i in range(0, len(filter)):
+                query += (filter[i] + ",") if (i != len(filter)-1) else (filter[i])
+            query += ")"
+
+        # ending semi colon
+        query += ";"
+        
+        # run the query 
+        res = connectToMySQL(DATABASE).query_db(query)
+        res_arr = []
+        for row_dict in res:
+            res_arr.append(cls(row_dict))
+        return res_arr
+
+

@@ -136,3 +136,15 @@ def events_month():
         return redirect('/')
     events = Event.read_all_this_month()
     return render_template('event_dashboard.html', events=events)
+
+#! Filter Events POST
+@app.route('/events/filter', methods=['POST'])
+def events_filter():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    
+    dayfilters = request.form.getlist('dayfilter')
+    # pp.pprint(dayfilters)
+    events = Event.read_all_filter_day_of_week(dayfilters)
+    return render_template('event_dashboard.html', events=events, dayfilters = request.form.getlist('dayfilter'))
