@@ -58,3 +58,10 @@ function changeEndTime() {
 
     // TODO maybe set the end time to empty and chage only if changed
 }
+
+
+// Like button toggle
+function toggleLike(x) {
+    x.classList.toggle("fa-thumbs-up");
+
+}
