@@ -10,15 +10,35 @@
 <div class="d-flex gap-3 align-items-center">
     <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
         <div class=""><a href="/events/dashboard" class="btn">Browse Events</a></div>
-        <div class="create-event">
+        <!-- <div class="create-event">
             <a href="/users/dashboard" class="btn">
                 <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
                     <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
                     {{session['name'].title()}}
                 </div>
             </a>
+        </div> -->
+        <div class="btn-group d-flex">
+            <a href="/users/dashboard" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <!-- <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded"> -->
+                    <!-- <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo"> -->
+                    {{session['name'].title()}}
+                <!-- </div> -->
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/users/dashboard/events/likes">Liked Events</a></li>
+                <li><a class="dropdown-item" href="/users/dashboard/myevents">My Events</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/users/dashboard/groups">Groups</a></li>
+                <li><a class="dropdown-item" href="/users/dashboard/friends">Friends</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/users/dashboard/account">Account</a></li>
+                <li><a class="dropdown-item" href="/users/dashboard/site-settings">Site Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item"  href="/users/dashboard/support" class="btn">Contact Support</a></li>
+            </ul>
         </div>
-        <div class="create-event">
+        <div class="logout">
             <form action="/logout" method="post">
                 <input type="submit" value="Logout" class="btn btn-danger">
             </form>

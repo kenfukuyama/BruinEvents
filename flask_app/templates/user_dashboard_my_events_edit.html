@@ -14,7 +14,7 @@
     <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
         <div class=""><a href="/events/dashboard" class="btn">Browse Events</a></div>
         <div class="create-event"><a href="/events/create" class="btn">+ Add Event</a></div>
-        <div class="create-event">
+        <div class="acount">
             <a href="/users/dashboard" class="btn">
                 <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
                     <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
@@ -22,7 +22,7 @@
                 </div>
             </a>
         </div>
-        <div class="create-event">
+        <div class="logout">
             <form action="/logout" method="post">
                 <input type="submit" value="Logout" class="btn btn-danger">
             </form>
