@@ -200,3 +200,17 @@ def like_event(id):
 
 
 
+#! Remvoe Like  
+@app.route('/events/likes/remove', methods=['POST'])
+def unlike_event():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+
+    data = {
+        "user_id" : session['user_id'],
+        "event_id" : request.form['event_id']
+    }
+    Like.delete_connect(data)
+    # pp.pprint(data)
+    return redirect(request.referrer)

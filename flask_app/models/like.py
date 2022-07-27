@@ -23,6 +23,12 @@ class Like:
     def create_connect(data):
         query = "INSERT INTO likes (`user_id`, `event_id`) VALUES (%(user_id)s, %(event_id)s);"
         return connectToMySQL(DATABASE).query_db(query, data)
+    
+    #! Delete many to many
+    @staticmethod
+    def delete_connect(data):
+        query = "DELETE FROM likes WHERE user_id = %(user_id)s AND event_id = %(event_id)s;"
+        return connectToMySQL(DATABASE).query_db(query, data)
 
     #! read user by email
     @classmethod
@@ -45,3 +51,5 @@ class Like:
             events_liked.append(row_dict['event_id'])
 
         return events_liked
+
+
