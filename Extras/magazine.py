@@ -131,7 +131,7 @@ class Magazine:
 
     # ! delete one
     @staticmethod
-    def delete(cls, data):
+    def delete(data):
         query = "DELETE FROM thoughts WHERE (`id` = %(id)s);"
         return connectToMySQL(DATABASE).query_db(query, data)
 
@@ -141,9 +141,6 @@ class Magazine:
     def create_connect(cls, data):
         query = "INSERT INTO likes (`user_id`, `thought_id`) VALUES ('3', '1');"
         return connectToMySQL(DATABASE).query_db(query, data)
-
-
-
 
 
     # ! read all

@@ -1,9 +1,9 @@
 # imports
-from dataclasses import dataclass
-from doctest import debug_script
-from re import X
-from flask import flash
+from flask import flash, session
 from flask_app.config.mysqlconnection import connectToMySQL
+
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 # database
 DATABASE = "bruinevents"
@@ -27,16 +27,21 @@ class Event:
 
         # additional join attributes
         # TODO: change this whenver you add new attributes
+        self.login_user_liked = False
 
 
     # ! read all
     @classmethod
-    def read_all(cls):
-        query = "SELECT * from events"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all(cls, data):
+        query = "SELECT * FROM events LEFT JOIN Likes ON likes.event_id = events.id AND likes.user_id = %(user_id)s "
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
 
 
@@ -160,5 +165,4 @@ class Event:
         for row_dict in res:
             res_arr.append(cls(row_dict))
         return res_arr
-
 

@@ -60,35 +60,35 @@
                     {{dayfilters}} -->
                     <h7 class="m-2">By Day of the Week:</h7>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="monday" name="dayfilter" value="2" {% if '2' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="monday" name="dayfilter" value="2" {% if '2' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="monday">Monday</label>
                     </div>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="tuesday" name="dayfilter" value="3" {% if '3' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="tuesday" name="dayfilter" value="3" {% if '3' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="tuesday">Tuesday</label>
                     </div>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="wednesday" name="dayfilter" value="4" {% if '4' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="wednesday" name="dayfilter" value="4" {% if '4' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="wednesday">Wednesday</label>
                     </div>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="thursday" name="dayfilter" value="5" {% if '5' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="thursday" name="dayfilter" value="5" {% if '5' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="thursday">Thursday</label>
                     </div>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="friday" name="dayfilter" value="6" {% if '6' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="friday" name="dayfilter" value="6" {% if '6' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="Friday">Friday</label>
                     </div>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="saturday" name="dayfilter" value="7" {% if '7' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="saturday" name="dayfilter" value="7" {% if '7' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="saturday">Saturday</label>
                     </div>
                     <div class="form-check form-switch m-2">
-                        <input class="form-check-input" type="checkbox" id="sunday" name="dayfilter" value="1" {% if '1' in dayfilters %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" id="sunday" name="dayfilter" value="1" {% if '1' in filters %}checked{% endif %}>
                         <label class="form-check-label" for="sunday">Sunday</label>
                     </div>
                     <div class="d-flex justify-content-between align-items-center m-2 mt-3">
-                        <a href="/events/dashboard" class="btn btn-warning">Clear</a>
+                        <a href="/events/filters/clear" class="btn btn-warning">Clear</a>
                         <input type="submit" value="Apply" class="btn btn-primary">
                     </div>
                 </form>
@@ -127,8 +127,13 @@
                             <div class="card-body d-flex justify-content-between">
                                 <div class="">Description: {{event.description}}  <br></div>
                                 <!-- TODO: Resize the thumbs instead of the images -->
-                                <div class=""><i onclick="toggleLike(this)" class="fa fa-thumbs-o-up" style="cursor: pointer; width: 50px; height: 50px;"></i>
-                                </div>
+                                <form action="/events/like" method="post">
+                                    <div class="">
+                                        <!-- TODO implement it in a way that hides the event id -->
+                                        <a href="/events/like/{{event.id}}" onclick="toggleLike(this)" class="text-decoration-none fa fa-thumbs-o-up" style="cursor: pointer; width: 50px; height: 50px;">
+                                        </a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

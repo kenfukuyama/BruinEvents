@@ -4,6 +4,7 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 from flask_app.models.event import Event
+from flask_app.models.like import Like
 
 #! Main Show Page
 @app.route('/events/dashboard')
@@ -11,8 +12,17 @@ def dashboard():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all()
-    return render_template('event_dashboard.html', events=events)
+    
+    # create filted events if there is a filter
+    events = Event.read_all_filter_day_of_week(session['filters']) if ("filters" in session) else Event.read_all(data={"user_id": session["user_id"]})
+    filters = session['filters'] if ("filters" in session) else []
+
+    # get likes so they can toggle
+    # likes = Like.get_user_likes(data = {"user_id" : session["user_id"]})
+    # pp.pprint([vars(i) for i in events])
+    return render_template('event_dashboard.html', 
+                            events=events, 
+                            filters=filters)
 
 
 #! Create Event Page
@@ -79,7 +89,7 @@ def update():
 
 # *================================================================
 # * Events Date Query Routes
-# *================================================================f
+# *================================================================
 
 #! Get Events Today
 @app.route('/events/dashboard/today')
@@ -137,6 +147,11 @@ def events_month():
     events = Event.read_all_this_month()
     return render_template('event_dashboard.html', events=events)
 
+
+
+# *================================================================
+# * Events Filter routes
+# *================================================================
 #! Filter Events POST
 @app.route('/events/filter', methods=['POST'])
 def events_filter():
@@ -144,7 +159,44 @@ def events_filter():
     if not "user_id" in session:
         return redirect('/')
     
-    dayfilters = request.form.getlist('dayfilter')
+    session['filters'] = request.form.getlist('dayfilter')
     # pp.pprint(dayfilters)
-    events = Event.read_all_filter_day_of_week(dayfilters)
-    return render_template('event_dashboard.html', events=events, dayfilters = request.form.getlist('dayfilter'))
+    # session['filterd_events'] = Event.read_all_filter_day_of_week(dayfilters)
+    # session['filters'] = dayfilters
+    # pp.pprint(session['filters'])
+    return redirect('/events/dashboard')
+
+
+#! Filter clear
+@app.route('/events/filters/clear')
+def events_filters_clear():
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+    
+    # clear the filters
+    if "filters" in session:
+        session.pop("filters")
+
+    return redirect('/events/dashboard')
+
+
+
+#! Like Request 
+@app.route('/events/like/<string:id>')
+def like_event(id):
+    # check if they are logged in
+    if not "user_id" in session:
+        return redirect('/')
+
+    data = {
+        "user_id" : session['user_id'],
+        "event_id" : id
+    }
+    if not Like.check_like(data):
+        connection_id = Like.create_connect(data)
+    # pp.pprint(data)
+    return redirect(request.referrer)
+
+
+

@@ -78,17 +78,18 @@ def user_dashboard():
     # * check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    return render_template('user_dashboard_liked_events.html')
+    return redirect('/users/dashboard/events/likes')
 
 
-#! User dashboard - likes
+#! User dashboard - liked events
 @app.route('/users/dashboard/events/likes')
 def user_dashboard_likes():
-    # * check if they are logged in
+     # * check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    return render_template('user_dashboard_liked_events.html')
-
+    user = User.read_one_join_likes(data={'id': session["user_id"]})
+    # pp.pprint([vars(i) for i in user.myevents])
+    return render_template('user_dashboard_liked_events.html', user=user)
 
 #! User dashboard - my events
 @app.route('/users/dashboard/myevents')
@@ -99,6 +100,7 @@ def user_dashboard_my_events():
     user = User.read_one_join(data={'id': session["user_id"]})
     # pp.pprint([vars(i) for i in user.myevents])
     return render_template('user_dashboard_my_events.html', user=user)
+
 
 
 # # ! read one - edit page
