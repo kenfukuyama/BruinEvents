@@ -14,7 +14,7 @@ def dashboard():
         return redirect('/')
     
     # create filted events if there is a filter
-    events = Event.read_all_filter_day_of_week(session['filters']) if ("filters" in session) else Event.read_all(data={"user_id": session["user_id"]})
+    events = Event.read_all_filter_day_of_week(data={'user_id': session['user_id']}, filters=session['filters']) if ("filters" in session) else Event.read_all(data={"user_id": session["user_id"]})
     filters = session['filters'] if ("filters" in session) else []
 
     # get likes so they can toggle
@@ -97,7 +97,7 @@ def events_today():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all_today()
+    events = Event.read_all_today(data={'user_id': session['user_id']})
     return render_template('event_dashboard.html', events=events)
 
 #! Get events Tommorrow
@@ -106,7 +106,7 @@ def events_tommorrow():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all_tommorrow()
+    events = Event.read_all_tommorrow(data={'user_id': session['user_id']})
     return render_template('event_dashboard.html', events=events)
 
 
@@ -116,7 +116,7 @@ def events_thursdays():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all_thursdays()
+    events = Event.read_all_thursdays(data={'user_id': session['user_id']})
     return render_template('event_dashboard.html', events=events)
 
 
@@ -126,7 +126,7 @@ def events_fridays():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all_fridays()
+    events = Event.read_all_fridays(data={'user_id': session['user_id']})
     return render_template('event_dashboard.html', events=events)
 
 #! Get events weekend
@@ -135,7 +135,7 @@ def events_weekend():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all_this_weekend()
+    events = Event.read_all_this_weekend(data={'user_id': session['user_id']})
     return render_template('event_dashboard.html', events=events)
 
 #! Get events this month
@@ -144,7 +144,7 @@ def events_month():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
-    events = Event.read_all_this_month()
+    events = Event.read_all_this_month(data={'user_id': session['user_id']})
     return render_template('event_dashboard.html', events=events)
 
 
@@ -214,7 +214,8 @@ def like_event():
     if request.form['liked'] == '1':
         Like.delete_connect(data)
     else:
-        Like.create_connect(data)
+        if not Like.check_like(data):
+            Like.create_connect(data)
         
     return redirect(request.referrer)
 

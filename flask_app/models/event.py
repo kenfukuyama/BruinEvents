@@ -9,6 +9,7 @@ pp = pprint.PrettyPrinter(indent=4)
 DATABASE = "bruinevents"
 
 class Event:
+    sql_query_select_with_login_liked = "SELECT * FROM events LEFT JOIN Likes ON likes.event_id = events.id AND likes.user_id = %(user_id)s"
     # ! contructor
     def __init__(self, data) -> None:
         # not null attributs
@@ -30,19 +31,10 @@ class Event:
         self.login_user_liked = False
 
 
-    # ! read all
-    @classmethod
-    def read_all(cls, data):
-        query = "SELECT * FROM events LEFT JOIN Likes ON likes.event_id = events.id AND likes.user_id = %(user_id)s "
-        res = connectToMySQL(DATABASE).query_db(query, data)
-        res_arr = []
-        for row_dict in res:
-            # pp.pprint(row_dict)
-            event = cls(row_dict)
-            if str(row_dict.get('Likes.user_id')) == session['user_id']:
-                event.login_user_liked = True
-            res_arr.append(event)
-        return res_arr
+
+    # *================================================================
+    # * Basic CRUD
+    # *================================================================
 
 
     # ! read one
@@ -80,89 +72,131 @@ class Event:
     # * Events Date Queries
     # *================================================================
 
-    #! select today's event
+    # ! read all
     @classmethod
-    def read_all_today(cls):
-        query = "SELECT * FROM events WHERE event_date >= CURDATE() AND event_date < CURDATE() + INTERVAL 1 DAY;"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all(cls, data):
+        query = Event.sql_query_select_with_login_liked + ";"
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
+        return res_arr
+
+    #! select today's event
+    @classmethod
+    def read_all_today(cls, data):
+        query = Event.sql_query_select_with_login_liked + " WHERE event_date >= CURDATE() AND event_date < CURDATE() + INTERVAL 1 DAY;"
+        res = connectToMySQL(DATABASE).query_db(query, data)
+        res_arr = []
+        for row_dict in res:
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
 
 
     #! select tommorrow's event
     @classmethod
-    def read_all_tommorrow(cls):
-        query = "SELECT * FROM events WHERE event_date > CURDATE() AND event_date <= CURDATE() + INTERVAL 1 DAY;"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all_tommorrow(cls, data):
+        query = Event.sql_query_select_with_login_liked + " WHERE event_date > CURDATE() AND event_date <= CURDATE() + INTERVAL 1 DAY;"
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
     
 
     #! select thursdays' event
     @classmethod
-    def read_all_thursdays(cls):
-        query = "SELECT * FROM events WHERE DAYOFWEEK(event_date) = 5;"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all_thursdays(cls, data):
+        query = Event.sql_query_select_with_login_liked + " WHERE DAYOFWEEK(event_date) = 5;"
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
 
     #! select fridays' event
     @classmethod
-    def read_all_fridays(cls):
-        query = "SELECT * FROM events WHERE DAYOFWEEK(event_date) = 6;"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all_fridays(cls, data):
+        query = Event.sql_query_select_with_login_liked + " WHERE DAYOFWEEK(event_date) = 6;"
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
     
     #! select this weekend query
     @classmethod
-    def read_all_this_weekend(cls):
-        query = "SELECT * FROM events WHERE DAYOFWEEK(event_date) in (1, 7) AND event_date >= CURDATE() AND (event_date <= CURDATE() + INTERVAL 8 DAY);"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all_this_weekend(cls, data):
+        query = Event.sql_query_select_with_login_liked + " WHERE DAYOFWEEK(event_date) in (1, 7) AND event_date >= CURDATE() AND (event_date <= CURDATE() + INTERVAL 8 DAY);"
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
 
     #! select this month query
     @classmethod
-    def read_all_this_month(cls):
-        query = "SELECT * FROM events WHERE event_date >= CURDATE() AND (event_date <= CURDATE() + INTERVAL 31 DAY);"
-        res = connectToMySQL(DATABASE).query_db(query)
+    def read_all_this_month(cls, data):
+        query = Event.sql_query_select_with_login_liked + " WHERE event_date >= CURDATE() AND (event_date <= CURDATE() + INTERVAL 31 DAY);"
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
 
 
-    #! select filter with day of the week
+    #! select filters with day of the week
     @classmethod
-    def read_all_filter_day_of_week(cls, filter):
+    def read_all_filter_day_of_week(cls, data, filters):
         # basic structure
-        query = "SELECT * FROM events"
+        query = Event.sql_query_select_with_login_liked
         
-        # append all the filter days
-        if len(filter) > 0:
+        # append all the filters days
+        if len(filters) > 0:
             query += " WHERE DAYOFWEEK(event_date) in ("
-            for i in range(0, len(filter)):
-                query += (filter[i] + ",") if (i != len(filter)-1) else (filter[i])
+            for i in range(0, len(filters)):
+                query += (filters[i] + ",") if (i != len(filters)-1) else (filters[i])
             query += ")"
 
         # ending semi colon
         query += ";"
         
         # run the query 
-        res = connectToMySQL(DATABASE).query_db(query)
+        res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr
 
