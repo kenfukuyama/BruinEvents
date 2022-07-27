@@ -183,22 +183,40 @@ def events_filters_clear():
 
 
 #! Like Request 
-@app.route('/events/like/<string:id>')
-def like_event(id):
+# @app.route('/events/like/<string:id>')
+# def like_event(id):
+#     # check if they are logged in
+#     if not "user_id" in session:
+#         return redirect('/')
+
+#     data = {
+#         "user_id" : session['user_id'],
+#         "event_id" : id
+#     }
+#     if not Like.check_like(data):
+#         connection_id = Like.create_connect(data)
+#     # pp.pprint(data)
+#     return redirect(request.referrer)
+
+
+#! Like POST
+@app.route('/events/like' , methods=['POST'])
+def like_event():
     # check if they are logged in
     if not "user_id" in session:
         return redirect('/')
 
+    # pp.pprint(request.form)
     data = {
-        "user_id" : session['user_id'],
-        "event_id" : id
+        "event_id" : request.form["event_id"],
+        "user_id" : session["user_id"]
     }
-    if not Like.check_like(data):
-        connection_id = Like.create_connect(data)
-    # pp.pprint(data)
+    if request.form['liked'] == '1':
+        Like.delete_connect(data)
+    else:
+        Like.create_connect(data)
+        
     return redirect(request.referrer)
-
-
 
 #! Remvoe Like  
 @app.route('/events/likes/remove', methods=['POST'])

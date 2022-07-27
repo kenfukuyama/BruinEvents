@@ -13,12 +13,12 @@
     <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
         <!-- <button onclick="getDate()">"getDate()"</button> -->
         <div class="create-event"><a href="/events/create" class="btn">+ Add Event</a></div>
-        <!-- <a href="/users/dashboard" class="btn">
+        <a href="/users/dashboard" class="btn">
             <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded">
                 <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo">
                 {{session['name'].title()}}
             </div>
-        </a> -->
+        </a>
         <!-- Example single danger button -->
         <div class="btn-group d-flex">
                 <a href="/users/dashboard" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,8 +150,19 @@
                                 <form action="/events/like" method="post">
                                     <div class="">
                                         <!-- TODO implement it in a way that hides the event id -->
-                                        <a href="/events/like/{{event.id}}" onclick="toggleLike(this)" class="text-decoration-none fa fa-thumbs-o-up" style="cursor: pointer; width: 50px; height: 50px;">
-                                        </a>
+                                        <!-- <a href="/events/like/{{event.id}}" onclick="toggleLike(this)" class="text-decoration-none fa fa-thumbs-o-up" style="cursor: pointer; width: 50px; height: 50px;">
+                                        </a> -->
+                                        <form action="/" method="post">
+                                            <input type="hidden" name="event_id" value="{{event.id}}">
+                                        {% if event.login_user_liked %}
+                                            <input type="hidden" name="liked" value="1">
+                                            <input type="image" src="{{url_for('static', filename='/images/heart.png')}}" class="btn" value="Liked" style="width:50px">
+                                        {% else %}
+                                            <input type="hidden" name="liked" value="0">
+                                            <input type="image" src="{{url_for('static', filename='/images/empty_heart.png')}}" class="btn" value="Liked" style="width:50px">
+                                        {% endif %}
+                                        </form>
+
                                     </div>
                                 </form>
                             </div>
