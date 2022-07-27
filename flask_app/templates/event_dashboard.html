@@ -113,7 +113,6 @@
                     </div>
                 </form>
                 
-
             </div>
             <!-- event browpage -->
             <div class="col-9">
@@ -131,6 +130,18 @@
                         <!-- <div class="date-event"><a href="/events/dashboard/">Select Date</a></div> -->
                     </div>
                 </div> 
+                <div class="row mb-3 w-50 m-1">
+                    <form action="/events/search" method="post">
+                        <div class="search">
+                            <input class="search_input" type="text" name="search" placeholder="Search events...">
+                            <!-- <input type href="#" class="search_icon"><i class="fa fa-search"></i></a> -->
+                            <div class="search_icon">
+                                <input type="image" src="{{url_for('static', filename='/images/search_icon.webp')}}" value="" class="search_img">
+                            </div>
+                            
+                        </div>
+                    </form>
+                </div>
                 <!-- show events -->
                 {% for event in events %}
                     <div class="row event">

@@ -200,3 +200,23 @@ class Event:
             res_arr.append(event)
         return res_arr
 
+    # *================================================================
+    # * SEARCH QUERES
+    # *================================================================
+
+    @classmethod
+    def search(cls, data):
+        # basic structure
+        query = Event.sql_query_select_with_login_liked + " WHERE name LIKE %(search)s OR place LIKE %(search)s OR description LIKE %(search)s;"
+
+        
+        # run the query 
+        res = connectToMySQL(DATABASE).query_db(query, data)
+        res_arr = []
+        for row_dict in res:
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
+        return res_arr

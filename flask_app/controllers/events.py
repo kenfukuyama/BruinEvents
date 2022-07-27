@@ -14,12 +14,24 @@ def dashboard():
         return redirect('/')
     
     # create filted events if there is a filter
-    events = Event.read_all_filter_day_of_week(data={'user_id': session['user_id']}, filters=session['filters']) if ("filters" in session) else Event.read_all(data={"user_id": session["user_id"]})
+    # events = Event.read_all_filter_day_of_week(data={'user_id': session['user_id']}, filters=session['filters']) if ("filters" in session) else Event.read_all(data={"user_id": session["user_id"]})
+
+    if "search" in session:
+        events = Event.search(data={"search": session["search"], 'user_id': session['user_id']})
+        # clears all the search and filters 
+        session.pop("search")
+        if "filters" in session:
+            session.pop("filters") 
+    elif "filters" in session:
+        events = Event.read_all_filter_day_of_week(data={'user_id': session['user_id']}, filters=session['filters'])
+        # clears all the search and filters 
+        if "search" in session:
+            session.pop("search")
+    else:
+        events = Event.read_all(data={"user_id": session["user_id"]})
+
     filters = session['filters'] if ("filters" in session) else []
 
-    # get likes so they can toggle
-    # likes = Like.get_user_likes(data = {"user_id" : session["user_id"]})
-    # pp.pprint([vars(i) for i in events])
     return render_template('event_dashboard.html', 
                             events=events, 
                             filters=filters)
@@ -233,3 +245,21 @@ def unlike_event():
     Like.delete_connect(data)
     # pp.pprint(data)
     return redirect(request.referrer)
+
+
+# *================================================================
+# * Search
+# *================================================================
+
+@app.route('/events/search', methods=['POST'])
+def search():
+    # pp.pprint(request.form)
+    # data = {
+    #     "search" : f'%%{request.form["search"]}%%',
+    #     "user_id" : session['user_id']
+    # }
+    session['search'] = f'%%{request.form["search"]}%%'
+    # events = Event.search(data)
+    # pp.pprint([vars(i) for i in events])
+    
+    return redirect('/events/dashboard')
