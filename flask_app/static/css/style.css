@@ -30,7 +30,7 @@ transition: width 0.4s linear;
 
 .search .search_input{
 padding: 0 5px;
-width: 200px;
+width: 390px;
 caret-color:black;
 transition: width 0.4s linear;
 }
@@ -61,3 +61,16 @@ background-color: white;
 .search a:link{
     text-decoration:none;
 }    
+
+/* ! google maps */
+/* Set the size of the div element that contains the map */
+#map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+}
+
+html {
+    height: 100% !important;
+}

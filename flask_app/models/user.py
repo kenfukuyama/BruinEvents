@@ -140,11 +140,15 @@ class User:
         res = connectToMySQL(DATABASE).query_db(query, data)
         user = cls(res[0])
         # when there is no events
-        if not res[0]['events.id']:
-            return user
+        # if not res[0]['events.id']:
+        #     return user
 
         # where there is event
         for row_dict in res:
+            # to prevent the deleting the events users liked, but delted by others
+            if not row_dict['events.id']:
+                continue
+
             data = {
                 "id" : row_dict['events.id'],
                 "name" : row_dict['events.name'],

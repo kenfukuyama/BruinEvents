@@ -24,7 +24,7 @@
         </div>
         <div class="logout">
             <form action="/logout" method="post">
-                <input type="submit" value="Logout" class="btn btn-danger">
+                <input type="submit" value="Logout" class="btn">
             </form>
         </div>
 </div>
@@ -32,99 +32,91 @@
 {% endblock%}
 
 {% block content %}
-    <!-- main content -->
-    <div class="row w-100 mt-3">
-        <!-- nav page -->
-        <div class="col-10">
-            <h2 class="p-3">Liked Events</h2>
-
-            {% for event in user.myevents %}
-            <div class="row event">
-                <div class="card border-warning m-2">
-                    <div class="card-header">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="event-name">{{event.name}} </div>
-                            <div class="event-time">{{event.event_date}}</div>
+    <div class="container">
+        <!-- main content -->
+        <div class="row w-100 mt-3">
+            <!-- nav page -->
+            <div class="col-10">
+                <h2 class="p-3">Liked Events</h2>
+                {% for event in user.myevents %}
+                <div class="row event gx-2">
+                    <div class="card m-2 shadow">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="event-name">
+                                    <a href="/events/show/{{event.id}}" class="text-decoration-none h5 ">{{event.name}}</a>
+                                </div>
+                                <div class="event-time">{{event.event_date}}</div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-end">
+                                <div class="event-time">Starts: {{event.start_time}} Ends: {{event.end_time}}</div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-end">
+                                <div class="event-time">{{event.place}}</div>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end">
-                            <div class="event-time">Starts: {{event.start_time}} Ends: {{event.end_time}}</div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-end">
-                            <div class="event-time">{{event.place}}</div>
+                        <div class="card-body">
+                            <div class="card-body d-flex justify-content-between">
+                                <div class=""> {{event.description}}  <br></div>
+                                <form action="/events/likes/remove" method="post">
+                                    <input type="hidden" name="event_id" value="{{event.id}}">
+                                    <input type="submit" class="btn btn-danger" value="Remove">
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="card-body d-flex justify-content-between">
-                            <div class="">Description: {{event.description}}  <br></div>
-                            <form action="/events/likes/remove" method="post">
-                                <input type="hidden" name="event_id" value="{{event.id}}">
-                                <input type="submit" class="btn btn-danger" value="Remove">
-                            </form>
+                </div>
+                {% endfor %}
+        
+            </div>
+            <!-- ! navigation bars ---------------------------------------------------- -->
+            <div class="col-2">
+                <div class="row navigation">
+                    <div class="card  m-2">
+                        <div class="card-header">
+                            Events
+                        </div>
+                        <div class="card-body">
+                            <a href="/users/dashboard/events/likes" class="btn">Liked Events</a> <br>
+                            <a href="/users/dashboard/myevents" class="btn">My Events</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row navigation">
+                    <div class="card  m-2">
+                        <div class="card-header">
+                            Connect
+                        </div>
+                        <div class="card-body">
+                            <a href="/users/dashboard/groups" class="btn">Groups</a> <br>
+                            <a href="/users/dashboard/friends" class="btn">Friends</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row navigation">
+                    <div class="card  m-2">
+                        <div class="card-header">
+                            Settings
+                        </div>
+                        <div class="card-body">
+                            <a href="/users/dashboard/account" class="btn">Account</a> <br>
+                            <a href="/users/dashboard/site-settings" class="btn">Site Settings</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row navigation">
+                    <div class="card  m-2">
+                        <div class="card-header">
+                            Help Center
+                        </div>
+                        <div class="card-body">
+                            <a href="/users/dashboard/support" class="btn">Contact Support
                         </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            
+            <!-- ! navgation bar ends ---------------------------------------------------------------- -->
         </div>
-
-
-
-
-
-
-
-
-
-
-
-        <!-- ! navigation bars ---------------------------------------------------- -->
-        <div class="col-2">
-            <div class="row navigation">
-                <div class="card  m-2">
-                    <div class="card-header">
-                        Events
-                    </div>
-                    <div class="card-body">
-                        <a href="/users/dashboard/events/likes" class="btn">Liked Events</a> <br>
-                        <a href="/users/dashboard/myevents" class="btn">My Events</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row navigation">
-                <div class="card  m-2">
-                    <div class="card-header">
-                        Connect
-                    </div>
-                    <div class="card-body">
-                        <a href="/users/dashboard/groups" class="btn">Groups</a> <br>
-                        <a href="/users/dashboard/friends" class="btn">Friends</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row navigation">
-                <div class="card  m-2">
-                    <div class="card-header">
-                        Settings
-                    </div>
-                    <div class="card-body">
-                        <a href="/users/dashboard/account" class="btn">Account</a> <br>
-                        <a href="/users/dashboard/site-settings" class="btn">Site Settings</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row navigation">
-                <div class="card  m-2">
-                    <div class="card-header">
-                        Help Center
-                    </div>
-                    <div class="card-body">
-                        <a href="/users/dashboard/support" class="btn">Contact Support
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ! navgation bar ends ---------------------------------------------------------------- -->
     </div>
 
 {% endblock %}

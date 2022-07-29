@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}Show Thoughts{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block extra_nav %} 
+<div class="d-flex gap-3 align-items-center">
+    <!-- <a href="/users/{{session['user_id']}}" class="btn">{{session['name'].title()}}</a> -->
+        <div class=""><a href="/events/dashboard" class="btn">Browse Events</a></div>
+        <div class="create-event"><a href="/events/create" class="btn">+ Add Event</a></div>
+        <div class="btn-group d-flex">
+            <a href="/users/dashboard" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <!-- <div class="d-flex justify-content-center align-items-center gap-2 bg-white p-1 rounded"> -->
+                    <!-- <img src="{{url_for('static', filename='/images/bruin_logo.png')}}" width="30" height="30" class="d-inline-block" alt="logo"> -->
+                    {{session['name'].title()}}
+                <!-- </div> -->
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/users/dashboard/events/likes">Liked Events</a></li>
+                <li><a class="dropdown-item" href="/users/dashboard/myevents">My Events</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/users/dashboard/groups">Groups</a></li>
+                <li><a class="dropdown-item" href="/users/dashboard/friends">Friends</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/users/dashboard/account">Account</a></li>
+                <li><a class="dropdown-item" href="/users/dashboard/site-settings">Site Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item"  href="/users/dashboard/support" class="btn">Contact Support</a></li>
+            </ul>
+        </div>
+        <div class="logout">
+            <form action="/logout" method="post">
+                <input type="submit" value="Logout" class="btn">
+            </form>
+        </div>
+</div>
+
+{% endblock%}
+
+{% block content %}
+
+<div class="card border-warning m-2">
+    <div class="card-header">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="event-name">
+                    <a href="/events/show/{{event.id}}" class="text-decoration-none">{{event.name}}</a>
+            </div>
+            <div class="event-time">{{event.event_date}} at {{event.start_time}}</div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <div class="">{{event.description}}  <br></div>
+            <div class="like">
+                <form action="/events/like" method="post">
+                        <input type="hidden" name="event_id" value="{{event.id}}">
+                    {% if event.login_user_liked %}
+                        <input type="hidden" name="liked" value="1">
+                        <input type="image" src="{{url_for('static', filename='/images/heart.png')}}" class="btn" value="Liked" style="width:50px">
+                    {% else %}
+                        <input type="hidden" name="liked" value="0">
+                        <input type="image" src="{{url_for('static', filename='/images/empty_heart.png')}}" class="btn" value="Liked" style="width:50px">
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class=""><p>Location: {{event.place}} </p>
+
+                
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+    
+
+
+{% endblock %}

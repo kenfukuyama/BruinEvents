@@ -24,7 +24,10 @@
 (function () {
     var date = new Date().toISOString().substring(0, 10),
         field = document.querySelector('#date');
-    field.value = date;
+    if (field) {
+
+        field.value = date;
+    }
     // console.log(field.value);
 })()
 
@@ -65,3 +68,12 @@ function toggleLike(x) {
     x.classList.toggle("fa-thumbs-up");
 
 }
+
+
+// ! JQuery Practice
+$(document).ready(function() {
+
+    $("#hidden")
+
+})
+

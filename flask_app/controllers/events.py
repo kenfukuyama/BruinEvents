@@ -1,10 +1,17 @@
 # imports
 from flask_app import app, render_template, redirect, request, session, flash
+
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
+import os
+import requests
 
 from flask_app.models.event import Event
 from flask_app.models.like import Like
+
+
+
+
 
 #! Main Show Page
 @app.route('/events/dashboard')
@@ -69,8 +76,8 @@ def edit_events_page(id):
     if not "user_id" in session:
         return redirect('/')
 
-    event = Event.read_one(data={"id": id})
-    pp.pprint(vars(event))
+    event = Event.read_one(data={'user_id': session['user_id'], 'id': id})
+    # pp.pprint(vars(event))
     # pp.pprint(event.start_time)
 
     if str(event.user_id) != session['user_id']:
@@ -263,3 +270,24 @@ def search():
     # pp.pprint([vars(i) for i in events])
     
     return redirect('/events/dashboard')
+
+
+# *================================================================
+# * Show individual event
+# *================================================================
+@app.route('/events/show/<string:id>') 
+def show_event(id):
+    event = Event.read_one(data={'user_id': session['user_id'], 'id': id})
+    # pp.pprint(vars(event))
+    api_key = os.environ.get("GOOGLE_MAPS_API_KEY")
+    res = requests.get(f'https://maps.googleapis.com/maps/api/geocode/json?address={event.place}&key={api_key}').json()
+
+    # pp.pprint(res)
+    # TODO: default is royce hall
+    location = res['results'][0]['geometry']['location'] if res['status'] == 'OK' else {'lat': 34.0728552, 'lng': -118.4421766}
+
+
+    # pp.pprint(location)
+
+
+    return render_template('event_show_v1.html', event=event, location=location, api_key=api_key)

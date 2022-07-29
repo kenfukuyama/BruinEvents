@@ -15,13 +15,13 @@ def index():
     if "user_id" in session:
         return redirect('/events/dashboard')
     # render login
-    return render_template('user_login.html')
+    return render_template('user_login_v1.html')
 
 # ! Register Page
 @app.route('/users/register')
 def users_register_page():
     # render register page
-    return render_template('user_register.html')
+    return render_template('user_register_v1.html')
 
 
 # ! Register POST
@@ -88,7 +88,7 @@ def user_dashboard_likes():
     if not "user_id" in session:
         return redirect('/')
     user = User.read_one_join_likes(data={'id': session["user_id"]})
-    # pp.pprint([vars(i) for i in user.myevents])
+    pp.pprint([vars(i) for i in user.myevents])
     return render_template('user_dashboard_liked_events.html', user=user)
 
 #! User dashboard - my events

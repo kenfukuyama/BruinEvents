@@ -40,11 +40,15 @@ class Event:
     # ! read one
     @classmethod
     def read_one(cls, data):
-        query = "SELECT * from events WHERE id = %(id)s"
+        query = Event.sql_query_select_with_login_liked + " WHERE events.id = %(id)s"
         res = connectToMySQL(DATABASE).query_db(query, data)
         res_arr = []
         for row_dict in res:
-            res_arr.append(cls(row_dict))
+            # pp.pprint(row_dict)
+            event = cls(row_dict)
+            if str(row_dict.get('Likes.user_id')) == session['user_id']:
+                event.login_user_liked = True
+            res_arr.append(event)
         return res_arr[0]
 
     

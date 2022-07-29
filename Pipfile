@@ -8,6 +8,9 @@ flask = "*"
 pymysql = "*"
 flask-bcrypt = "*"
 colorama = "*"
+python-dotenv = "*"
+requests = "*"
+flask-googlemaps = "*"
 
 [dev-packages]
 
