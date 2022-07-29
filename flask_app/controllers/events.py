@@ -65,6 +65,7 @@ def create_events_post():
 #! Deleteing events POST
 @app.route('/events/delete', methods=['POST'])
 def delete():
+    Like.delete_all_likes_for_events(data={'event_id': request.form['id']})
     Event.delete(request.form)
     return redirect('/users/dashboard/myevents')
 

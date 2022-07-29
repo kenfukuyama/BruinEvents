@@ -30,6 +30,12 @@ class Like:
         query = "DELETE FROM likes WHERE user_id = %(user_id)s AND event_id = %(event_id)s;"
         return connectToMySQL(DATABASE).query_db(query, data)
 
+    #! delte for freighte key contraint
+    @staticmethod
+    def delete_all_likes_for_events(data):
+        query = "DELETE FROM likes WHERE event_id = %(event_id)s;"
+        return connectToMySQL(DATABASE).query_db(query, data)
+
     #! read user by email
     @classmethod
     def check_like(cls, data):
